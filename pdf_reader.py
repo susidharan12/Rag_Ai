@@ -46,9 +46,11 @@ def extract_page_text(pdf_path, page_index, ocr_cache, pdf_doc):
 
     page_number = page_index + 1
 
-    if page_number in ocr_cache:
+    cache_key = (pdf_path, page_number)
 
-        return ocr_cache[page_number]
+    if cache_key in ocr_cache:
+
+        return ocr_cache[cache_key]
 
     with open(pdf_path, "rb") as f:
 
@@ -88,7 +90,7 @@ def extract_page_text(pdf_path, page_index, ocr_cache, pdf_doc):
         if os.path.exists(temp_path):
             os.remove(temp_path)
 
-    ocr_cache[page_number] = text
+    ocr_cache[cache_key] = text
 
     if page_number % 25 == 0:
         print(f"OCR progress: page {page_number}")
@@ -250,9 +252,38 @@ def pdf_to_vectors(pdf_path):
     )
 
 
+def find_latest_pdf():
+
+    docs_dir = "documents"
+
+    if not os.path.isdir(docs_dir):
+        return None
+
+    pdfs = [
+        os.path.join(docs_dir, f)
+        for f in os.listdir(docs_dir)
+        if f.lower().endswith(".pdf")
+    ]
+
+    if not pdfs:
+        return None
+
+    return max(pdfs, key=os.path.getmtime)
+
+
 if __name__ == "__main__":
 
-    pdf_file = sys.argv[1] if len(sys.argv) > 1 else "documents/history_world.pdf"
+    pdf_file = (
+        sys.argv[1]
+        if len(sys.argv) > 1
+        else find_latest_pdf()
+    )
+
+    if not pdf_file:
+
+        print("No PDF found. Run with a path or add a PDF to documents/.")
+
+        sys.exit(1)
 
     embeddings, chunks, metadata = pdf_to_vectors(
         pdf_file
