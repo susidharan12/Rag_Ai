@@ -1,36 +1,41 @@
-import faiss
 import os
-import PyPDF2
-import numpy as np
+import sys
 import pickle
+
+import faiss
+import numpy as np
+import PyPDF2
 import pymupdf
 import pytesseract
-import sys
 from sentence_transformers import SentenceTransformer
 
-OCR_CACHE_FILE = "ocr_cache.pkl"
+import config
 
-pytesseract.pytesseract.tesseract_cmd = (
-    os.environ.get(
-        "TESSERACT_CMD",
-        r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-    )
-)
+pytesseract.pytesseract.tesseract_cmd = config.resolve_tesseract_cmd()
 
-print("Loading embedding model...")
+_embedding_model = None
 
-embedding_model = SentenceTransformer(
-    "sentence-transformers/all-MiniLM-L6-v2"
-)
 
-print("Embedding model loaded")
+def get_embedding_model():
+
+    global _embedding_model
+
+    if _embedding_model is None:
+
+        print("Loading embedding model...")
+
+        _embedding_model = SentenceTransformer(config.EMBEDDING_MODEL_NAME)
+
+        print("Embedding model loaded")
+
+    return _embedding_model
 
 
 def load_ocr_cache():
 
-    if os.path.exists(OCR_CACHE_FILE):
+    if os.path.exists(config.OCR_CACHE_PATH):
 
-        with open(OCR_CACHE_FILE, "rb") as f:
+        with open(config.OCR_CACHE_PATH, "rb") as f:
             return pickle.load(f)
 
     return {}
@@ -38,7 +43,7 @@ def load_ocr_cache():
 
 def save_ocr_cache(cache):
 
-    with open(OCR_CACHE_FILE, "wb") as f:
+    with open(config.OCR_CACHE_PATH, "wb") as f:
         pickle.dump(cache, f)
 
 
@@ -100,6 +105,47 @@ def extract_page_text(pdf_path, page_index, ocr_cache, pdf_doc):
     return text
 
 
+def chunk_page_text(text, chunk_size, chunk_overlap):
+    """Split text into word-aligned chunks of roughly chunk_size characters."""
+
+    words = text.split()
+
+    if not words:
+        return []
+
+    chunks = []
+    current_words = []
+    current_len = 0
+
+    for word in words:
+
+        current_words.append(word)
+        current_len += len(word) + 1
+
+        if current_len >= chunk_size:
+
+            chunks.append(" ".join(current_words))
+
+            overlap_words = []
+            overlap_len = 0
+
+            for w in reversed(current_words):
+
+                overlap_len += len(w) + 1
+                overlap_words.insert(0, w)
+
+                if overlap_len >= chunk_overlap:
+                    break
+
+            current_words = overlap_words
+            current_len = overlap_len
+
+    if current_words:
+        chunks.append(" ".join(current_words))
+
+    return chunks
+
+
 def pdf_to_vectors(pdf_path):
 
     print(f"\nReading PDF: {pdf_path}")
@@ -139,9 +185,6 @@ def pdf_to_vectors(pdf_path):
     chunks = []
     chunk_metadata = []
 
-    chunk_size = 500
-    chunk_overlap = 50
-
     for page in page_texts:
 
         page_text = page["text"]
@@ -150,26 +193,19 @@ def pdf_to_vectors(pdf_path):
         if not page_text.strip():
             continue
 
-        step = chunk_size - chunk_overlap
+        page_chunks = chunk_page_text(
+            page_text,
+            config.CHUNK_SIZE,
+            config.CHUNK_OVERLAP
+        )
 
-        for start in range(
-            0,
-            len(page_text),
-            step
-        ):
-
-            chunk_text = page_text[
-                start:start + chunk_size
-            ]
-
-            if not chunk_text.strip():
-                continue
+        for chunk_index, chunk_text in enumerate(page_chunks):
 
             chunks.append(chunk_text)
 
             chunk_metadata.append({
                 "page_number": page_number,
-                "start_position": start
+                "chunk_index": chunk_index
             })
 
     print(f"Created {len(chunks)} chunks")
@@ -182,7 +218,7 @@ def pdf_to_vectors(pdf_path):
 
     print("\nCreating local embeddings...")
 
-    embeddings = embedding_model.encode(
+    embeddings = get_embedding_model().encode(
         chunks,
         show_progress_bar=True,
         convert_to_numpy=True
@@ -213,12 +249,12 @@ def pdf_to_vectors(pdf_path):
 
     faiss.write_index(
         index,
-        "vectors.index"
+        config.INDEX_PATH
     )
 
     print("Saving chunks and metadata...")
 
-    with open("chunks.pkl", "wb") as f:
+    with open(config.CHUNKS_PATH, "wb") as f:
 
         pickle.dump(
             {
@@ -233,8 +269,8 @@ def pdf_to_vectors(pdf_path):
 
     print("Files created:")
 
-    print("   vectors.index")
-    print("   chunks.pkl")
+    print(f"   {config.INDEX_PATH}")
+    print(f"   {config.CHUNKS_PATH}")
 
     print(
         f"\nNumber of chunks: {len(chunks)}"
@@ -254,14 +290,12 @@ def pdf_to_vectors(pdf_path):
 
 def find_latest_pdf():
 
-    docs_dir = "documents"
-
-    if not os.path.isdir(docs_dir):
+    if not os.path.isdir(config.DOCUMENTS_DIR):
         return None
 
     pdfs = [
-        os.path.join(docs_dir, f)
-        for f in os.listdir(docs_dir)
+        os.path.join(config.DOCUMENTS_DIR, f)
+        for f in os.listdir(config.DOCUMENTS_DIR)
         if f.lower().endswith(".pdf")
     ]
 
@@ -271,7 +305,7 @@ def find_latest_pdf():
     return max(pdfs, key=os.path.getmtime)
 
 
-if __name__ == "__main__":
+def main():
 
     pdf_file = (
         sys.argv[1]
@@ -281,12 +315,17 @@ if __name__ == "__main__":
 
     if not pdf_file:
 
-        print("No PDF found. Run with a path or add a PDF to documents/.")
+        print(
+            f"No PDF found. Run with a path or add a PDF to "
+            f"{config.DOCUMENTS_DIR}/."
+        )
 
         sys.exit(1)
 
-    embeddings, chunks, metadata = pdf_to_vectors(
-        pdf_file
-    )
+    pdf_to_vectors(pdf_file)
 
     print("\nSetup completed!")
+
+
+if __name__ == "__main__":
+    main()

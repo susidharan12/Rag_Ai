@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+
+# Generated index artifacts (rebuild with pdf_reader.py)
+vectors.index
+chunks.pkl
+ocr_cache.pkl
+ocr_run.log
+.claude
+
+
+cmd to start
+  source .venv/bin/activate
+  python pdf_reader.py                             
+  RAG_OLLAMA_MODEL=qwen2.5:3b-instruct python query.py
