@@ -1,0 +1,854 @@
+{
+  "baseline": [
+    {
+      "id": "Q1",
+      "question": "What is the default value and type of retry_backoff_ms on Client.send()?",
+      "expected_page_id": "v3-client-send",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "baseline:v3-client-send:0",
+          "score": 0.653,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. In SDK v3 the method gained "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "baseline:v3-client-send:1",
+          "score": 0.5717,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "exponential growth. ## Example ```python from nimbus import Client client = Client(api_key=\"sk_live_...\") response = client.send( message=\"order.created\", retry"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "baseline:v2-client-send:0",
+          "score": 0.5221,
+          "page_id": "v2-client-send",
+          "sdk_version": "v2",
+          "section": "Notes",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. ## Parameters | Name | Type "
+        },
+        {
+          "rank": 4,
+          "chunk_id": "baseline:v3-errors:1",
+          "score": 0.489,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "overloaded. | ## Example ```python from nimbus.errors import NimbusError try: client.send(message=\"order.created\") except NimbusError as e: if e.code == \"RATE_L"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "baseline:v3-client-connect:1",
+          "score": 0.3957,
+          "page_id": "v3-client-connect",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "api_key=\"sk_live_...\", pool_size=20, ) ``` ## Notes `keepalive_ms` determines how long an idle connection is kept in the pool before being closed. Lowering it r"
+        }
+      ]
+    },
+    {
+      "id": "Q2",
+      "question": "What is the default value of timeout_ms on Client.send()?",
+      "expected_page_id": "v3-client-send",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "baseline:v3-client-send:0",
+          "score": 0.5303,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. In SDK v3 the method gained "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "baseline:v2-client-send:0",
+          "score": 0.4629,
+          "page_id": "v2-client-send",
+          "sdk_version": "v2",
+          "section": "Notes",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. ## Parameters | Name | Type "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "baseline:v3-client-send:1",
+          "score": 0.4188,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "exponential growth. ## Example ```python from nimbus import Client client = Client(api_key=\"sk_live_...\") response = client.send( message=\"order.created\", retry"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "baseline:v3-client-connect:1",
+          "score": 0.4102,
+          "page_id": "v3-client-connect",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "api_key=\"sk_live_...\", pool_size=20, ) ``` ## Notes `keepalive_ms` determines how long an idle connection is kept in the pool before being closed. Lowering it r"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "baseline:v3-client-connect:0",
+          "score": 0.3881,
+          "page_id": "v3-client-connect",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "# Client.connect() `Client.connect()` opens a pooled connection to the Nimbus gateway. Call this once per process; the returned `Client` instance is thread-safe"
+        }
+      ]
+    },
+    {
+      "id": "Q3",
+      "question": "What is the default pool_size for Client.connect()?",
+      "expected_page_id": "v3-client-connect",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "baseline:v3-client-connect:0",
+          "score": 0.5953,
+          "page_id": "v3-client-connect",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "# Client.connect() `Client.connect()` opens a pooled connection to the Nimbus gateway. Call this once per process; the returned `Client` instance is thread-safe"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "baseline:v2-client-connect:0",
+          "score": 0.4811,
+          "page_id": "v2-client-connect",
+          "sdk_version": "v2",
+          "section": "Notes",
+          "text_preview": "# Client.connect() `Client.connect()` opens a pooled connection to the Nimbus gateway. ## Parameters | Name | Type | Default | Required | |--------------|------"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "baseline:v3-client-connect:1",
+          "score": 0.4399,
+          "page_id": "v3-client-connect",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "api_key=\"sk_live_...\", pool_size=20, ) ``` ## Notes `keepalive_ms` determines how long an idle connection is kept in the pool before being closed. Lowering it r"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "baseline:v3-pagination:0",
+          "score": 0.2919,
+          "page_id": "v3-pagination",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "# list_events() pagination `list_events()` returns a page of events from the account's event log. Pagination is cursor-based; each response includes a `next_cur"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "baseline:v3-errors:0",
+          "score": 0.2398,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Error code reference Every Nimbus API error response includes a machine-readable `code` field. The table below lists every code the v3 SDK raises client-side "
+        }
+      ]
+    },
+    {
+      "id": "Q4",
+      "question": "What is the default value of tolerance_seconds in WebhookVerifier.verify()?",
+      "expected_page_id": "v3-webhooks",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "baseline:v3-webhooks:0",
+          "score": 0.7178,
+          "page_id": "v3-webhooks",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "# WebhookVerifier.verify() `WebhookVerifier.verify()` checks the HMAC signature on an inbound webhook delivery and rejects deliveries whose timestamp is too far"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "baseline:v3-webhooks:1",
+          "score": 0.4091,
+          "page_id": "v3-webhooks",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "signature=request.headers[\"Nimbus-Signature\"], timestamp=int(request.headers[\"Nimbus-Timestamp\"]), tolerance_seconds=120, ) ``` ## Notes Raising `tolerance_seco"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "baseline:v3-client-send:0",
+          "score": 0.366,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. In SDK v3 the method gained "
+        },
+        {
+          "rank": 4,
+          "chunk_id": "baseline:v3-client-send:1",
+          "score": 0.3221,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "exponential growth. ## Example ```python from nimbus import Client client = Client(api_key=\"sk_live_...\") response = client.send( message=\"order.created\", retry"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "baseline:v3-client-connect:1",
+          "score": 0.3114,
+          "page_id": "v3-client-connect",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "api_key=\"sk_live_...\", pool_size=20, ) ``` ## Notes `keepalive_ms` determines how long an idle connection is kept in the pool before being closed. Lowering it r"
+        }
+      ]
+    },
+    {
+      "id": "Q5",
+      "question": "What is the maximum allowed value for the limit parameter in list_events() pagination?",
+      "expected_page_id": "v3-pagination",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "baseline:v3-pagination:0",
+          "score": 0.6734,
+          "page_id": "v3-pagination",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "# list_events() pagination `list_events()` returns a page of events from the account's event log. Pagination is cursor-based; each response includes a `next_cur"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "baseline:v3-client-send:1",
+          "score": 0.2303,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "exponential growth. ## Example ```python from nimbus import Client client = Client(api_key=\"sk_live_...\") response = client.send( message=\"order.created\", retry"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "baseline:v2-client-connect:0",
+          "score": 0.2163,
+          "page_id": "v2-client-connect",
+          "sdk_version": "v2",
+          "section": "Notes",
+          "text_preview": "# Client.connect() `Client.connect()` opens a pooled connection to the Nimbus gateway. ## Parameters | Name | Type | Default | Required | |--------------|------"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "baseline:v3-errors:1",
+          "score": 0.2094,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "overloaded. | ## Example ```python from nimbus.errors import NimbusError try: client.send(message=\"order.created\") except NimbusError as e: if e.code == \"RATE_L"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "baseline:v3-client-send:0",
+          "score": 0.2053,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. In SDK v3 the method gained "
+        }
+      ]
+    },
+    {
+      "id": "Q6",
+      "question": "Is HTTP error code 429 (RATE_LIMITED) retryable according to the error reference?",
+      "expected_page_id": "v3-errors",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "baseline:v3-client-send:1",
+          "score": 0.5064,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "exponential growth. ## Example ```python from nimbus import Client client = Client(api_key=\"sk_live_...\") response = client.send( message=\"order.created\", retry"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "baseline:v3-errors:1",
+          "score": 0.4699,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "overloaded. | ## Example ```python from nimbus.errors import NimbusError try: client.send(message=\"order.created\") except NimbusError as e: if e.code == \"RATE_L"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "baseline:v3-errors:0",
+          "score": 0.443,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Error code reference Every Nimbus API error response includes a machine-readable `code` field. The table below lists every code the v3 SDK raises client-side "
+        },
+        {
+          "rank": 4,
+          "chunk_id": "baseline:v3-client-send:0",
+          "score": 0.3907,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. In SDK v3 the method gained "
+        },
+        {
+          "rank": 5,
+          "chunk_id": "baseline:v3-webhooks:0",
+          "score": 0.3838,
+          "page_id": "v3-webhooks",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "# WebhookVerifier.verify() `WebhookVerifier.verify()` checks the HMAC signature on an inbound webhook delivery and rejects deliveries whose timestamp is too far"
+        }
+      ]
+    },
+    {
+      "id": "Q7",
+      "question": "What is the default scope value when calling TokenProvider.refresh()?",
+      "expected_page_id": "v3-auth",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "baseline:v3-auth:0",
+          "score": 0.5925,
+          "page_id": "v3-auth",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "# TokenProvider.refresh() `TokenProvider.refresh()` exchanges a long-lived refresh token for a new short-lived access token. The SDK calls this automatically wh"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "baseline:v3-client-send:0",
+          "score": 0.2697,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. In SDK v3 the method gained "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "baseline:v2-client-send:0",
+          "score": 0.2238,
+          "page_id": "v2-client-send",
+          "sdk_version": "v2",
+          "section": "Notes",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. ## Parameters | Name | Type "
+        },
+        {
+          "rank": 4,
+          "chunk_id": "baseline:v3-errors:0",
+          "score": 0.2157,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Error code reference Every Nimbus API error response includes a machine-readable `code` field. The table below lists every code the v3 SDK raises client-side "
+        },
+        {
+          "rank": 5,
+          "chunk_id": "baseline:v3-client-connect:1",
+          "score": 0.1991,
+          "page_id": "v3-client-connect",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "api_key=\"sk_live_...\", pool_size=20, ) ``` ## Notes `keepalive_ms` determines how long an idle connection is kept in the pool before being closed. Lowering it r"
+        }
+      ]
+    },
+    {
+      "id": "Q8",
+      "question": "In the Client.send() code sample, how do you pass a custom retry_backoff_ms value when constructing the request?",
+      "expected_page_id": "v3-client-send",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "baseline:v3-client-send:0",
+          "score": 0.5695,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. In SDK v3 the method gained "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "baseline:v3-client-send:1",
+          "score": 0.5201,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "exponential growth. ## Example ```python from nimbus import Client client = Client(api_key=\"sk_live_...\") response = client.send( message=\"order.created\", retry"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "baseline:v2-client-send:0",
+          "score": 0.5143,
+          "page_id": "v2-client-send",
+          "sdk_version": "v2",
+          "section": "Notes",
+          "text_preview": "# Client.send() `Client.send()` transmits a single message to the Nimbus event bus and waits for the broker to acknowledge receipt. ## Parameters | Name | Type "
+        },
+        {
+          "rank": 4,
+          "chunk_id": "baseline:v3-errors:1",
+          "score": 0.4945,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Notes",
+          "text_preview": "overloaded. | ## Example ```python from nimbus.errors import NimbusError try: client.send(message=\"order.created\") except NimbusError as e: if e.code == \"RATE_L"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "baseline:v3-errors:0",
+          "score": 0.374,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Example",
+          "text_preview": "# Error code reference Every Nimbus API error response includes a machine-readable `code` field. The table below lists every code the v3 SDK raises client-side "
+        }
+      ]
+    }
+  ],
+  "structured": [
+    {
+      "id": "Q1",
+      "question": "What is the default value and type of retry_backoff_ms on Client.send()?",
+      "expected_page_id": "v3-client-send",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "structured:v3-client-send:4",
+          "score": 0.775,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Notes",
+          "text_preview": "If the broker returns a `429 RATE_LIMITED` response, `Client.send()` will\nhonor `retry_backoff_ms` before retrying rather than failing immediately.\nSee the [err"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "structured:v3-client-send:1",
+          "score": 0.7517,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Parameters",
+          "text_preview": "Client.send() > Parameters\n\n| Name              | Type   | Default | Required |\n|-------------------|--------|---------|----------|\n| message           | str   "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "structured:v3-client-send:2",
+          "score": 0.7206,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Parameters",
+          "text_preview": "`retry_backoff_ms` controls the base delay between retry attempts. Each\nsubsequent retry doubles this value (exponential backoff) until\n`max_retries` is exhaust"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "structured:v2-client-send:1",
+          "score": 0.6753,
+          "page_id": "v2-client-send",
+          "sdk_version": "v2",
+          "section": "Client.send() > Parameters",
+          "text_preview": "Client.send() > Parameters\n\n| Name       | Type | Default | Required |\n|------------|------|---------|----------|\n| message    | str  | \u2014       | yes      |\n| r"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "structured:v2-client-send:2",
+          "score": 0.6356,
+          "page_id": "v2-client-send",
+          "sdk_version": "v2",
+          "section": "Client.send() > Parameters",
+          "text_preview": "`retry_ms` is the fixed delay between retry attempts. Unlike v3, v2 does not\napply exponential backoff \u2014 every retry waits the same `retry_ms` interval."
+        }
+      ]
+    },
+    {
+      "id": "Q2",
+      "question": "What is the default value of timeout_ms on Client.send()?",
+      "expected_page_id": "v3-client-send",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "structured:v3-client-send:1",
+          "score": 0.6481,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Parameters",
+          "text_preview": "Client.send() > Parameters\n\n| Name              | Type   | Default | Required |\n|-------------------|--------|---------|----------|\n| message           | str   "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "structured:v2-client-send:1",
+          "score": 0.6441,
+          "page_id": "v2-client-send",
+          "sdk_version": "v2",
+          "section": "Client.send() > Parameters",
+          "text_preview": "Client.send() > Parameters\n\n| Name       | Type | Default | Required |\n|------------|------|---------|----------|\n| message    | str  | \u2014       | yes      |\n| r"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "structured:v3-client-send:4",
+          "score": 0.5526,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Notes",
+          "text_preview": "If the broker returns a `429 RATE_LIMITED` response, `Client.send()` will\nhonor `retry_backoff_ms` before retrying rather than failing immediately.\nSee the [err"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "structured:v3-client-send:2",
+          "score": 0.4597,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Parameters",
+          "text_preview": "`retry_backoff_ms` controls the base delay between retry attempts. Each\nsubsequent retry doubles this value (exponential backoff) until\n`max_retries` is exhaust"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "structured:v3-errors:3",
+          "score": 0.4549,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Error code reference > Notes",
+          "text_preview": "Only `RATE_LIMITED`, `INTERNAL`, and `UNAVAILABLE` are retryable. The SDK's\nbuilt-in retry loop in `Client.send()` will not retry any other code."
+        }
+      ]
+    },
+    {
+      "id": "Q3",
+      "question": "What is the default pool_size for Client.connect()?",
+      "expected_page_id": "v3-client-connect",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "structured:v2-client-connect:2",
+          "score": 0.6874,
+          "page_id": "v2-client-connect",
+          "sdk_version": "v2",
+          "section": "Client.connect() > Parameters",
+          "text_preview": "`pool_size` sets the maximum number of concurrent TCP connections held open\nto the gateway."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "structured:v2-client-connect:1",
+          "score": 0.6576,
+          "page_id": "v2-client-connect",
+          "sdk_version": "v2",
+          "section": "Client.connect() > Parameters",
+          "text_preview": "Client.connect() > Parameters\n\n| Name         | Type | Default | Required |\n|--------------|------|---------|----------|\n| endpoint     | str  | \u2014       | yes  "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "structured:v3-client-connect:2",
+          "score": 0.6347,
+          "page_id": "v3-client-connect",
+          "sdk_version": "v3",
+          "section": "Client.connect() > Parameters",
+          "text_preview": "`pool_size` sets the maximum number of concurrent TCP connections held open\nto the gateway. In SDK v2 the default `pool_size` was `5`; v3 doubled it to\n`10` aft"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "structured:v3-client-connect:1",
+          "score": 0.6327,
+          "page_id": "v3-client-connect",
+          "sdk_version": "v3",
+          "section": "Client.connect() > Parameters",
+          "text_preview": "Client.connect() > Parameters\n\n| Name          | Type | Default | Required |\n|---------------|------|---------|----------|\n| endpoint      | str  | \u2014       | ye"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "structured:v2-client-connect:4",
+          "score": 0.4926,
+          "page_id": "v2-client-connect",
+          "sdk_version": "v2",
+          "section": "Client.connect() > Notes",
+          "text_preview": "v2 is in maintenance mode. v3 doubles the default `pool_size` to `10`."
+        }
+      ]
+    },
+    {
+      "id": "Q4",
+      "question": "What is the default value of tolerance_seconds in WebhookVerifier.verify()?",
+      "expected_page_id": "v3-webhooks",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "structured:v3-webhooks:2",
+          "score": 0.8277,
+          "page_id": "v3-webhooks",
+          "sdk_version": "v3",
+          "section": "WebhookVerifier.verify() > Parameters",
+          "text_preview": "`tolerance_seconds` sets how old a webhook's `timestamp` header is allowed\nto be before `verify()` raises `WebhookExpiredError`. The default of `300`\n(5 minutes"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "structured:v3-webhooks:1",
+          "score": 0.7074,
+          "page_id": "v3-webhooks",
+          "sdk_version": "v3",
+          "section": "WebhookVerifier.verify() > Parameters",
+          "text_preview": "WebhookVerifier.verify() > Parameters\n\n| Name              | Type  | Default | Required |\n|-------------------|-------|---------|----------|\n| payload          "
+        },
+        {
+          "rank": 3,
+          "chunk_id": "structured:v3-webhooks:0",
+          "score": 0.6655,
+          "page_id": "v3-webhooks",
+          "sdk_version": "v3",
+          "section": "WebhookVerifier.verify()",
+          "text_preview": "`WebhookVerifier.verify()` checks the HMAC signature on an inbound webhook\ndelivery and rejects deliveries whose timestamp is too far in the past,\nprotecting ag"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "structured:v3-webhooks:3",
+          "score": 0.6387,
+          "page_id": "v3-webhooks",
+          "sdk_version": "v3",
+          "section": "WebhookVerifier.verify() > Example",
+          "text_preview": "WebhookVerifier.verify() > Example\n\n```python\nfrom nimbus.webhooks import WebhookVerifier\n\nverifier = WebhookVerifier(signing_secret=\"whsec_...\")\n\nis_valid = ve"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "structured:v3-webhooks:4",
+          "score": 0.535,
+          "page_id": "v3-webhooks",
+          "sdk_version": "v3",
+          "section": "WebhookVerifier.verify() > Notes",
+          "text_preview": "Raising `tolerance_seconds` above the default is discouraged in\nproduction; it widens the window in which a captured request could be\nreplayed."
+        }
+      ]
+    },
+    {
+      "id": "Q5",
+      "question": "What is the maximum allowed value for the limit parameter in list_events() pagination?",
+      "expected_page_id": "v3-pagination",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "structured:v3-pagination:1",
+          "score": 0.7135,
+          "page_id": "v3-pagination",
+          "sdk_version": "v3",
+          "section": "list_events() pagination > Parameters",
+          "text_preview": "list_events() pagination > Parameters\n\n| Name    | Type | Default | Required |\n|---------|------|---------|----------|\n| cursor  | str  | None    | no       |\n|"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "structured:v3-pagination:3",
+          "score": 0.5958,
+          "page_id": "v3-pagination",
+          "sdk_version": "v3",
+          "section": "list_events() pagination > Example",
+          "text_preview": "list_events() pagination > Example\n\n```python\npage = client.list_events(limit=100, order=\"asc\")\n\nwhile page.next_cursor:\n    page = client.list_events(cursor=pa"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "structured:v3-pagination:0",
+          "score": 0.5611,
+          "page_id": "v3-pagination",
+          "sdk_version": "v3",
+          "section": "list_events() pagination",
+          "text_preview": "`list_events()` returns a page of events from the account's event log.\nPagination is cursor-based; each response includes a `next_cursor` field\nthat should be p"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "structured:v3-pagination:2",
+          "score": 0.4884,
+          "page_id": "v3-pagination",
+          "sdk_version": "v3",
+          "section": "list_events() pagination > Parameters",
+          "text_preview": "`limit` accepts any integer from `1` to `200`. Requesting a `limit` above\n`200` raises a `ValueError` client-side before the request is even sent;\nthe server it"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "structured:v2-client-connect:2",
+          "score": 0.3395,
+          "page_id": "v2-client-connect",
+          "sdk_version": "v2",
+          "section": "Client.connect() > Parameters",
+          "text_preview": "`pool_size` sets the maximum number of concurrent TCP connections held open\nto the gateway."
+        }
+      ]
+    },
+    {
+      "id": "Q6",
+      "question": "Is HTTP error code 429 (RATE_LIMITED) retryable according to the error reference?",
+      "expected_page_id": "v3-errors",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "structured:v3-client-send:4",
+          "score": 0.6416,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Notes",
+          "text_preview": "If the broker returns a `429 RATE_LIMITED` response, `Client.send()` will\nhonor `retry_backoff_ms` before retrying rather than failing immediately.\nSee the [err"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "structured:v3-errors:3",
+          "score": 0.6099,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Error code reference > Notes",
+          "text_preview": "Only `RATE_LIMITED`, `INTERNAL`, and `UNAVAILABLE` are retryable. The SDK's\nbuilt-in retry loop in `Client.send()` will not retry any other code."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "structured:v3-errors:1",
+          "score": 0.5915,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Error code reference > Codes",
+          "text_preview": "Error code reference > Codes\n\n| Code | Name             | Retryable | Description                                   |\n|------|------------------|-----------|---"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "structured:v3-client-send:2",
+          "score": 0.5031,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Parameters",
+          "text_preview": "`retry_backoff_ms` controls the base delay between retry attempts. Each\nsubsequent retry doubles this value (exponential backoff) until\n`max_retries` is exhaust"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "structured:v3-pagination:2",
+          "score": 0.4939,
+          "page_id": "v3-pagination",
+          "sdk_version": "v3",
+          "section": "list_events() pagination > Parameters",
+          "text_preview": "`limit` accepts any integer from `1` to `200`. Requesting a `limit` above\n`200` raises a `ValueError` client-side before the request is even sent;\nthe server it"
+        }
+      ]
+    },
+    {
+      "id": "Q7",
+      "question": "What is the default scope value when calling TokenProvider.refresh()?",
+      "expected_page_id": "v3-auth",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "structured:v3-auth:1",
+          "score": 0.732,
+          "page_id": "v3-auth",
+          "sdk_version": "v3",
+          "section": "TokenProvider.refresh() > Parameters",
+          "text_preview": "TokenProvider.refresh() > Parameters\n\n| Name          | Type | Default   | Required |\n|---------------|------|-----------|----------|\n| refresh_token | str  | \u2014"
+        },
+        {
+          "rank": 2,
+          "chunk_id": "structured:v3-auth:4",
+          "score": 0.7281,
+          "page_id": "v3-auth",
+          "sdk_version": "v3",
+          "section": "TokenProvider.refresh() > Notes",
+          "text_preview": "Access tokens returned by `refresh()` expire after 3600 seconds regardless\nof the requested `scope`."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "structured:v3-auth:2",
+          "score": 0.6873,
+          "page_id": "v3-auth",
+          "sdk_version": "v3",
+          "section": "TokenProvider.refresh() > Parameters",
+          "text_preview": "`scope` limits the permissions granted to the returned access token. Passing\n`\"default\"` requests whatever scopes were originally granted to the\nrefresh token. "
+        },
+        {
+          "rank": 4,
+          "chunk_id": "structured:v3-auth:0",
+          "score": 0.6286,
+          "page_id": "v3-auth",
+          "sdk_version": "v3",
+          "section": "TokenProvider.refresh()",
+          "text_preview": "`TokenProvider.refresh()` exchanges a long-lived refresh token for a new\nshort-lived access token. The SDK calls this automatically when a request\nfails with `4"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "structured:v3-auth:3",
+          "score": 0.5306,
+          "page_id": "v3-auth",
+          "sdk_version": "v3",
+          "section": "TokenProvider.refresh() > Example",
+          "text_preview": "TokenProvider.refresh() > Example\n\n```python\nfrom nimbus.auth import TokenProvider\n\nprovider = TokenProvider(client_id=\"...\", client_secret=\"...\")\n\ntoken = prov"
+        }
+      ]
+    },
+    {
+      "id": "Q8",
+      "question": "In the Client.send() code sample, how do you pass a custom retry_backoff_ms value when constructing the request?",
+      "expected_page_id": "v3-client-send",
+      "hit_top5": true,
+      "results": [
+        {
+          "rank": 1,
+          "chunk_id": "structured:v3-client-send:1",
+          "score": 0.7638,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Parameters",
+          "text_preview": "Client.send() > Parameters\n\n| Name              | Type   | Default | Required |\n|-------------------|--------|---------|----------|\n| message           | str   "
+        },
+        {
+          "rank": 2,
+          "chunk_id": "structured:v2-client-send:1",
+          "score": 0.7295,
+          "page_id": "v2-client-send",
+          "sdk_version": "v2",
+          "section": "Client.send() > Parameters",
+          "text_preview": "Client.send() > Parameters\n\n| Name       | Type | Default | Required |\n|------------|------|---------|----------|\n| message    | str  | \u2014       | yes      |\n| r"
+        },
+        {
+          "rank": 3,
+          "chunk_id": "structured:v3-client-send:4",
+          "score": 0.7189,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Notes",
+          "text_preview": "If the broker returns a `429 RATE_LIMITED` response, `Client.send()` will\nhonor `retry_backoff_ms` before retrying rather than failing immediately.\nSee the [err"
+        },
+        {
+          "rank": 4,
+          "chunk_id": "structured:v3-client-send:2",
+          "score": 0.6051,
+          "page_id": "v3-client-send",
+          "sdk_version": "v3",
+          "section": "Client.send() > Parameters",
+          "text_preview": "`retry_backoff_ms` controls the base delay between retry attempts. Each\nsubsequent retry doubles this value (exponential backoff) until\n`max_retries` is exhaust"
+        },
+        {
+          "rank": 5,
+          "chunk_id": "structured:v3-errors:3",
+          "score": 0.563,
+          "page_id": "v3-errors",
+          "sdk_version": "v3",
+          "section": "Error code reference > Notes",
+          "text_preview": "Only `RATE_LIMITED`, `INTERNAL`, and `UNAVAILABLE` are retryable. The SDK's\nbuilt-in retry loop in `Client.send()` will not retry any other code."
+        }
+      ]
+    }
+  ]
+}

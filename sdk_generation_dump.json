@@ -1,0 +1,96 @@
+{
+  "answerable": [
+    {
+      "id": "Q1",
+      "question": "What is the default value and type of retry_backoff_ms on Client.send()?",
+      "known_page": "v3/client_send.md",
+      "known_answer": "int, default 500",
+      "retrieved_chunk_ids": [
+        "structured:v3-client-send:4",
+        "structured:v3-client-send:1",
+        "structured:v3-client-send:2",
+        "structured:v3-errors:3",
+        "structured:v3-errors:1"
+      ],
+      "answer": "retry_backoff_ms has a default value of int type [structured:v3-client-send:1].",
+      "citations_resolve": true,
+      "unresolved_citations": []
+    },
+    {
+      "id": "Q5",
+      "question": "What is the maximum allowed value for the limit parameter in list_events() pagination?",
+      "known_page": "v3/pagination.md",
+      "known_answer": "200",
+      "retrieved_chunk_ids": [
+        "structured:v3-pagination:1",
+        "structured:v3-pagination:3",
+        "structured:v3-pagination:0",
+        "structured:v3-pagination:2",
+        "structured:v3-webhooks:4"
+      ],
+      "answer": "The maximum allowed value for the limit parameter in list_events() pagination is 200 [structured:v3-pagination:2].",
+      "citations_resolve": true,
+      "unresolved_citations": []
+    },
+    {
+      "id": "Q8",
+      "question": "In the Client.send() code sample, how do you pass a custom retry_backoff_ms value when constructing the request?",
+      "known_page": "v3/client_send.md",
+      "known_answer": "as a keyword argument, e.g. client.send(message=..., retry_backoff_ms=750, ...)",
+      "retrieved_chunk_ids": [
+        "structured:v3-client-send:1",
+        "structured:v3-client-send:4",
+        "structured:v3-client-send:2",
+        "structured:v3-errors:3",
+        "structured:v3-client-send:3"
+      ],
+      "answer": "In the Client.send() code sample, a custom `retry_backoff_ms` value is passed as a keyword argument to the send method [structured:v3-client-send:3].",
+      "citations_resolve": true,
+      "unresolved_citations": []
+    }
+  ],
+  "refusals": [
+    {
+      "id": "O1",
+      "question": "What is the rate limit, in requests per second, for the /v3/events/stream endpoint?",
+      "why_unanswerable": "No streaming endpoint or any requests-per-second rate limit number is documented anywhere in the 6 v3 reference pages.",
+      "retrieved_chunk_ids": [
+        "structured:v3-webhooks:4",
+        "structured:v3-client-connect:2",
+        "structured:v3-errors:3",
+        "structured:v3-pagination:2",
+        "structured:v3-client-send:2"
+      ],
+      "answer": "I cannot answer this from the indexed SDK reference pages.",
+      "refused": true
+    },
+    {
+      "id": "O2",
+      "question": "What is the default retry backoff for the Nimbus SDK's Go client?",
+      "why_unanswerable": "The corpus only documents one (Python) client; no Go client or per-language defaults are mentioned.",
+      "retrieved_chunk_ids": [
+        "structured:v3-client-send:0",
+        "structured:v3-client-send:2",
+        "structured:v3-client-send:4",
+        "structured:v3-errors:3",
+        "structured:v3-client-send:3"
+      ],
+      "answer": "I cannot answer this from the indexed SDK reference pages.",
+      "refused": true
+    },
+    {
+      "id": "O3",
+      "question": "What is the maximum webhook payload size accepted by WebhookVerifier?",
+      "why_unanswerable": "webhooks.md documents tolerance_seconds but never states a maximum payload size in bytes.",
+      "retrieved_chunk_ids": [
+        "structured:v3-webhooks:1",
+        "structured:v3-webhooks:3",
+        "structured:v3-webhooks:2",
+        "structured:v3-webhooks:0",
+        "structured:v3-pagination:2"
+      ],
+      "answer": "I cannot answer this from the indexed SDK reference pages.",
+      "refused": true
+    }
+  ]
+}

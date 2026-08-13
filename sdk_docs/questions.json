@@ -1,0 +1,66 @@
+[
+  {
+    "id": "Q1",
+    "question": "What is the default value and type of retry_backoff_ms on Client.send()?",
+    "known_page": "v3/client_send.md",
+    "known_section": "Parameters table",
+    "known_answer": "int, default 500",
+    "depends_on": "table"
+  },
+  {
+    "id": "Q2",
+    "question": "What is the default value of timeout_ms on Client.send()?",
+    "known_page": "v3/client_send.md",
+    "known_section": "Parameters table",
+    "known_answer": "30000",
+    "depends_on": "table"
+  },
+  {
+    "id": "Q3",
+    "question": "What is the default pool_size for Client.connect()?",
+    "known_page": "v3/client_connect.md",
+    "known_section": "Parameters table",
+    "known_answer": "10",
+    "depends_on": "table"
+  },
+  {
+    "id": "Q4",
+    "question": "What is the default value of tolerance_seconds in WebhookVerifier.verify()?",
+    "known_page": "v3/webhooks.md",
+    "known_section": "Parameters table",
+    "known_answer": "300",
+    "depends_on": "table"
+  },
+  {
+    "id": "Q5",
+    "question": "What is the maximum allowed value for the limit parameter in list_events() pagination?",
+    "known_page": "v3/pagination.md",
+    "known_section": "Notes / prose below Parameters table",
+    "known_answer": "200",
+    "depends_on": "table+prose"
+  },
+  {
+    "id": "Q6",
+    "question": "Is HTTP error code 429 (RATE_LIMITED) retryable according to the error reference?",
+    "known_page": "v3/errors.md",
+    "known_section": "Codes table",
+    "known_answer": "yes",
+    "depends_on": "table"
+  },
+  {
+    "id": "Q7",
+    "question": "What is the default scope value when calling TokenProvider.refresh()?",
+    "known_page": "v3/auth.md",
+    "known_section": "Parameters table",
+    "known_answer": "\"default\"",
+    "depends_on": "table"
+  },
+  {
+    "id": "Q8",
+    "question": "In the Client.send() code sample, how do you pass a custom retry_backoff_ms value when constructing the request?",
+    "known_page": "v3/client_send.md",
+    "known_section": "Example code fence",
+    "known_answer": "as a keyword argument, e.g. client.send(message=..., retry_backoff_ms=750, ...)",
+    "depends_on": "code_fence"
+  }
+]

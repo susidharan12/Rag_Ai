@@ -1,0 +1,17 @@
+[
+  {
+    "id": "O1",
+    "question": "What is the rate limit, in requests per second, for the /v3/events/stream endpoint?",
+    "why_unanswerable": "No streaming endpoint or any requests-per-second rate limit number is documented anywhere in the 6 v3 reference pages."
+  },
+  {
+    "id": "O2",
+    "question": "What is the default retry backoff for the Nimbus SDK's Go client?",
+    "why_unanswerable": "The corpus only documents one (Python) client; no Go client or per-language defaults are mentioned."
+  },
+  {
+    "id": "O3",
+    "question": "What is the maximum webhook payload size accepted by WebhookVerifier?",
+    "why_unanswerable": "webhooks.md documents tolerance_seconds but never states a maximum payload size in bytes."
+  }
+]

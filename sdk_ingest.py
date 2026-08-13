@@ -1,0 +1,286 @@
+"""Ingest the v3 SDK reference drop (+ the v2 pages already on file) under
+two competing chunking strategies, so the two can be measured against the
+same 8 questions.
+
+Scope: this indexes ONLY the 6 new v3 reference pages plus the 2 v2 pages
+kept for the version-filter demo (sdk_docs/v3/*.md, sdk_docs/v2/*.md) — it
+does not touch the existing PDF pipeline (pdf_reader.py / vectors.index /
+chunks.pkl) and does not re-index the whole docs site.
+
+Two strategies, same source pages, same embedding model — only the chunker
+changes:
+  - "baseline": the app's existing word-count chunker (pdf_reader.chunk_page_text),
+    applied to the raw markdown text. It has no idea where a table or a code
+    fence is, so it can and does cut them in half.
+  - "structured": a markdown-aware chunker that splits on headers and treats
+    a parameter table or a fenced code block as one indivisible unit.
+"""
+
+import os
+import re
+import pickle
+
+import faiss
+import numpy as np
+
+import config
+from pdf_reader import chunk_page_text, get_embedding_model
+
+SDK_DOCS_DIR = "sdk_docs"
+SDK_INDEX_DIR = "sdk_index"
+
+FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n(.*)$", re.DOTALL)
+
+
+def parse_page(path):
+    """Split a markdown file into (frontmatter_dict, body_text)."""
+
+    with open(path, "r", encoding="utf-8") as f:
+        raw = f.read()
+
+    match = FRONTMATTER_RE.match(raw)
+
+    if not match:
+        raise ValueError(f"{path} is missing the required YAML frontmatter block")
+
+    front_raw, body = match.group(1), match.group(2)
+
+    front = {}
+    for line in front_raw.splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        front[key.strip()] = value.strip()
+
+    for required in ("page_id", "sdk_version", "page_type"):
+        if required not in front:
+            raise ValueError(f"{path} frontmatter is missing '{required}'")
+
+    return front, body.strip("\n")
+
+
+def discover_pages():
+    pages = []
+
+    for version_dir in ("v3", "v2"):
+        full_dir = os.path.join(SDK_DOCS_DIR, version_dir)
+
+        if not os.path.isdir(full_dir):
+            continue
+
+        for filename in sorted(os.listdir(full_dir)):
+            if not filename.endswith(".md"):
+                continue
+
+            path = os.path.join(full_dir, filename)
+            front, body = parse_page(path)
+
+            pages.append({
+                "source_file": os.path.join(version_dir, filename),
+                "page_id": front["page_id"],
+                "sdk_version": front["sdk_version"],
+                "page_type": front["page_type"],
+                "body": body,
+            })
+
+    return pages
+
+
+# ---------------------------------------------------------------------------
+# Strategy 1: baseline — the existing word-count chunker, structure-blind.
+# ---------------------------------------------------------------------------
+
+def chunk_baseline(page):
+    """Word-count chunking on the raw markdown, oblivious to headers, table
+    rows, or fenced code blocks. This is the app's current chunker,
+    unmodified, just pointed at markdown instead of PDF page text."""
+
+    text_chunks = chunk_page_text(page["body"], config.CHUNK_SIZE, config.CHUNK_OVERLAP)
+
+    # Best-effort "nearest preceding header" label, purely for the results
+    # write-up — the chunker does not use this to make splitting decisions.
+    headers = re.findall(r"^(#{1,3} .+)$", page["body"], re.MULTILINE)
+    fallback_section = headers[0].lstrip("# ").strip() if headers else "N/A"
+
+    records = []
+    for idx, chunk_text in enumerate(text_chunks):
+        section = fallback_section
+        for h in headers:
+            if h.lstrip("# ").strip() in chunk_text or chunk_text[:40] in page["body"].split(h, 1)[-1][:400]:
+                section = h.lstrip("# ").strip()
+        records.append({
+            "text": chunk_text,
+            "chunk_type": "mixed",
+            "section": section,
+        })
+
+    return records
+
+
+# ---------------------------------------------------------------------------
+# Strategy 2: structure-aware — split on headers; a parameter table or a
+# fenced code block is always kept as a single, uncut chunk.
+# ---------------------------------------------------------------------------
+
+MAX_PROSE_CHARS = 700
+
+
+def _flush_prose(buf_lines, section, out):
+    text = "\n".join(buf_lines).strip()
+    if not text:
+        return
+    # Split an overlong prose block on blank-line paragraph boundaries only —
+    # never mid-table, never mid-fence (those never reach this function).
+    paragraphs = [p for p in text.split("\n\n") if p.strip()]
+    current = []
+    current_len = 0
+    for para in paragraphs:
+        if current and current_len + len(para) > MAX_PROSE_CHARS:
+            out.append({"text": "\n\n".join(current), "chunk_type": "prose", "section": section})
+            current, current_len = [], 0
+        current.append(para)
+        current_len += len(para)
+    if current:
+        out.append({"text": "\n\n".join(current), "chunk_type": "prose", "section": section})
+
+
+def chunk_structured(page):
+    lines = page["body"].split("\n")
+
+    records = []
+    prose_buf = []
+    section_stack = [page["page_id"]]
+    current_section = page["page_id"]
+
+    i = 0
+    n = len(lines)
+
+    while i < n:
+        line = lines[i]
+
+        header_match = re.match(r"^(#{1,3})\s+(.*)$", line)
+        table_row = line.strip().startswith("|")
+        fence_start = line.strip().startswith("```")
+
+        if header_match:
+            _flush_prose(prose_buf, current_section, records)
+            prose_buf = []
+
+            level = len(header_match.group(1))
+            title = header_match.group(2).strip()
+            section_stack = section_stack[: level - 1] + [title]
+            current_section = " > ".join(section_stack)
+            i += 1
+            continue
+
+        if table_row:
+            _flush_prose(prose_buf, current_section, records)
+            prose_buf = []
+
+            table_lines = []
+            while i < n and lines[i].strip().startswith("|"):
+                table_lines.append(lines[i])
+                i += 1
+
+            records.append({
+                "text": f"{current_section}\n\n" + "\n".join(table_lines),
+                "chunk_type": "table",
+                "section": current_section,
+            })
+            continue
+
+        if fence_start:
+            _flush_prose(prose_buf, current_section, records)
+            prose_buf = []
+
+            fence_lines = [lines[i]]
+            i += 1
+            while i < n and not lines[i].strip().startswith("```"):
+                fence_lines.append(lines[i])
+                i += 1
+            if i < n:
+                fence_lines.append(lines[i])  # closing ```
+                i += 1
+
+            records.append({
+                "text": f"{current_section}\n\n" + "\n".join(fence_lines),
+                "chunk_type": "code",
+                "section": current_section,
+            })
+            continue
+
+        prose_buf.append(line)
+        i += 1
+
+    _flush_prose(prose_buf, current_section, records)
+
+    return [r for r in records if r["text"].strip()]
+
+
+STRATEGIES = {
+    "baseline": chunk_baseline,
+    "structured": chunk_structured,
+}
+
+
+def build_index(strategy_name):
+    chunker = STRATEGIES[strategy_name]
+    pages = discover_pages()
+
+    all_texts = []
+    all_metadata = []
+
+    for page in pages:
+        page_chunks = chunker(page)
+
+        for idx, rec in enumerate(page_chunks):
+            chunk_id = f"{strategy_name}:{page['page_id']}:{idx}"
+
+            all_texts.append(rec["text"])
+            all_metadata.append({
+                "chunk_id": chunk_id,
+                "source_file": page["source_file"],
+                "page_id": page["page_id"],
+                "sdk_version": page["sdk_version"],
+                "page_type": page["page_type"],
+                "section": rec["section"],
+                "chunk_type": rec["chunk_type"],
+                "strategy": strategy_name,
+            })
+
+    # Every chunk must carry a source_file — a chunk without one is a failed
+    # ingest per the task requirements.
+    for meta in all_metadata:
+        assert meta["source_file"], f"failed ingest: chunk {meta['chunk_id']} has no source_file"
+
+    embeddings = get_embedding_model().encode(
+        all_texts, show_progress_bar=False, convert_to_numpy=True
+    )
+    embeddings = np.array(embeddings, dtype="float32")
+    faiss.normalize_L2(embeddings)
+
+    dimension = embeddings.shape[1]
+    index = faiss.IndexFlatIP(dimension)
+    index.add(embeddings)
+
+    os.makedirs(SDK_INDEX_DIR, exist_ok=True)
+
+    index_path = os.path.join(SDK_INDEX_DIR, f"{strategy_name}.index")
+    chunks_path = os.path.join(SDK_INDEX_DIR, f"{strategy_name}.pkl")
+
+    faiss.write_index(index, index_path)
+    with open(chunks_path, "wb") as f:
+        pickle.dump({"chunks": all_texts, "metadata": all_metadata}, f)
+
+    print(f"[{strategy_name}] pages={len(pages)} chunks={len(all_texts)} -> {index_path}, {chunks_path}")
+
+    return all_texts, all_metadata
+
+
+def main():
+    for strategy_name in STRATEGIES:
+        build_index(strategy_name)
+
+
+if __name__ == "__main__":
+    main()

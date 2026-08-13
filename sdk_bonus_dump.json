@@ -1,0 +1,36 @@
+{
+  "baseline": {
+    "chunk_ids": [
+      "baseline:v3-client-send:0",
+      "baseline:v3-client-send:1",
+      "baseline:v3-errors:1",
+      "baseline:v2-client-send:0",
+      "baseline:v3-errors:0"
+    ],
+    "chunk_types": [
+      "mixed",
+      "mixed",
+      "mixed",
+      "mixed",
+      "mixed"
+    ],
+    "answer": "To override the default `retry_backoff_ms` of 500 milliseconds, you can pass a different value for `retry_backoff_ms` parameter when calling the `Client.send()` method. For example:\n\n```python\nfrom nimbus import Client\n\nclient = Client(api_key=\"sk_live_...\")\nresponse = client.send(\n    message=\"order.created\",\n    retry_backoff_ms=750,\n)\nprint(response.status)\n```"
+  },
+  "structured": {
+    "chunk_ids": [
+      "structured:v3-client-send:1",
+      "structured:v3-client-send:4",
+      "structured:v2-client-send:1",
+      "structured:v3-client-send:2",
+      "structured:v3-errors:3"
+    ],
+    "chunk_types": [
+      "table",
+      "prose",
+      "table",
+      "prose",
+      "prose"
+    ],
+    "answer": "To override the default retry_backoff_ms when calling Client.send(), you can pass a keyword argument with your desired value. [structured:v3-client-send:1]"
+  }
+}
